@@ -4,15 +4,15 @@ stages:
 
 ####################
 # TEST STAGE
-#####################
+####################
 test-job:
   stage: test
-  image: python:3.10
-  before_script:
-    - pip install --upgrade pip
   script:
-    - pip install flask requests
-    - python -m py_compile log.py
+    - python3 --version
+    - python3 -m ensurepip --default-pip || true
+    - python3 -m pip install --upgrade pip
+    - python3 -m pip install flask requests
+    - python3 -m py_compile log.py
     - echo "Syntax check passed"
   only:
     - main
@@ -23,36 +23,32 @@ test-job:
 ####################
 deploy-job:
   stage: deploy
-  image: python:3.10
   before_script:
-    - apt-get update -qq
-    - apt-get install -y openssh-client rsync
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
     - sed -i 's/\r$//' ~/.ssh/id_ed25519
-    - echo "" >> ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
-    - ssh-keygen -lf ~/.ssh/id_ed25519
     - ssh-keyscan -p $SERVER_PORT $SERVER_IP >> ~/.ssh/known_hosts 2>/dev/null
   script:
-    - ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 -p $SERVER_PORT $SERVER_USER@$SERVER_IP "echo SSH connection OK"
-    - rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -p $SERVER_PORT" --exclude='.git/' --exclude='__pycache__/' --exclude='*.pyc' --exclude='.venv/' --exclude='logs.txt' y_liashko/ $SERVER_USER@$SERVER_IP:~/app/
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -p $SERVER_PORT $SERVER_USER@$SERVER_IP "echo SSH connection OK"
+    - rsync -avz --delete \
+        --exclude='.git/' \
+        --exclude='__pycache__/' \
+        --exclude='*.pyc' \
+        --exclude='.venv/' \
+        --exclude='logs.txt' \
+        y_liashko/ $SERVER_USER@$SERVER_IP:~/app/
     - |
       ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -p $SERVER_PORT $SERVER_USER@$SERVER_IP "
         cd ~/app &&
-        pkill -f 'python.*log.py' || echo 'No running process found' &&
+        pkill -f 'python.*log.py' || true &&
         sleep 2 &&
-        pip3 install --user flask requests &&
+        python3 -m pip install --user flask requests &&
         nohup python3 log.py > app.log 2>&1 &
         sleep 3 &&
-        if pgrep -f 'python.*log.py' > /dev/null; then
-          echo 'Application started successfully'
-        else
-          echo 'Application failed to start'
-          tail -20 app.log
-          exit 1
-        fi
+        pgrep -f 'python.*log.py' >/dev/null &&
+        echo 'Application started successfully'
       "
   only:
     - main
