@@ -7,7 +7,8 @@ import os
 import signal
 app = Flask(__name__)
 LOG_FILE = "logs.txt"
-RUNNING = True
+RUNNING = True#
+
 
 def heartbeat():
     while RUNNING:
