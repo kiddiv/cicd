@@ -31,25 +31,19 @@ deploy-job:
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-keyscan -p $SERVER_PORT $SERVER_IP >> ~/.ssh/known_hosts 2>/dev/null
   script:
-    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -p $SERVER_PORT $SERVER_USER@$SERVER_IP "echo SSH connection OK"
     - rsync -avz --delete \
         --exclude='.git/' \
         --exclude='__pycache__/' \
         --exclude='*.pyc' \
         --exclude='.venv/' \
-        --exclude='logs.txt' \
-        y_liashko/ $SERVER_USER@$SERVER_IP:~/app/
+        app/ $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app/
     - |
-      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -p $SERVER_PORT $SERVER_USER@$SERVER_IP "
-        cd ~/app &&
-        pkill -f 'python.*log.py' || true &&
-        sleep 2 &&
-        python3 -m pip install --user flask requests &&
-        nohup python3 log.py > app.log 2>&1 &
-        sleep 3 &&
-        pgrep -f 'python.*log.py' >/dev/null &&
-        echo 'Application started successfully'
+      ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP "
+        sudo systemctl daemon-reexec &&
+        sudo systemctl daemon-reload &&
+        sudo systemctl restart logapp &&
+        sudo systemctl status logapp --no-pager
       "
   only:
     - main
-  when: manual
+  
