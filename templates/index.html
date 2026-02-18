@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс криптовалюти</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #d4edff;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 20px;
+        }
+        .error {
+            background-color: #ffe7e7;
+            color: #d00;
+        }
+        .logs {
+            margin-top: 30px;
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+        }
+        .logs h2 {
+            font-size: 18px;
+            color: #666;
+        }
+        .logs pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Курс криптовалюти</h1>
+
+        <form method="POST">
+            <input type="text" name="coin" placeholder="Введіть код (BTC, ETH...)" required>
+            <button type="submit">Перевірити</button>
+        </form>
+
+        {% if price %}
+        <div class="result">
+            <strong>{{ coin }}</strong> = <strong>${{ price }}</strong> USD
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="result error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="logs">
+            <h2>Логи (останні 100 записів)</h2>
+            <pre>{% for log in logs %}{{ log }}{% endfor %}</pre>
+        </div>
+    </div>
+</body>
+</html>
