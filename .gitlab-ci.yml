@@ -12,7 +12,7 @@ test-job:
     - pip install --upgrade pip
   script:
     - pip install flask requests
-    - python -m py_compile y_liashko/log.py
+    - python -m py_compile log.py
     - echo "Syntax check passed"
   only:
     - main
