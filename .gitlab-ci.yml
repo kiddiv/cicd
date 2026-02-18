@@ -4,7 +4,7 @@ stages:
 
 ####################
 # TEST STAGE
-#####################
+####################
 test-job:
   stage: test
   script:
@@ -24,16 +24,24 @@ test-job:
 deploy-job:
   stage: deploy
   before_script:
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
-  - ssh-keyscan -p $SERVER_PORT $SERVER_IP >> ~/.ssh/known_hosts 2>/dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -p $SERVER_PORT $SERVER_IP >> ~/.ssh/known_hosts 2>/dev/null
 
   script:
-  - rsync -avz --delete --exclude='.git/' --exclude='__pycache__/' --exclude='*.pyc' --exclude='.venv/' ./ $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app/
+    
+    - rsync -avz --delete --exclude='.git/' --exclude='__pycache__/' --exclude='*.pyc' --exclude='.venv/' ./ $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app/
 
+    
+    - |
+      ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP "
+        sudo systemctl daemon-reexec &&
+        sudo systemctl daemon-reload &&
+        sudo systemctl restart logapp &&
+        sudo systemctl status logapp --no-pager
+      "
 
   only:
     - main
-  
