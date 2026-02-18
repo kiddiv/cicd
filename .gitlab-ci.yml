@@ -31,7 +31,8 @@ deploy-job:
   - ssh-keyscan -p $SERVER_PORT $SERVER_IP >> ~/.ssh/known_hosts 2>/dev/null
 
   script:
-  - rsync -avz --delete --exclude='.git/' --exclude='__pycache__/' --exclude='*.pyc' --exclude='.venv/' app/ $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app/
+  - rsync -avz --delete --exclude='.git/' --exclude='__pycache__/' --exclude='*.pyc' --exclude='.venv/' ./ $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/app/
+
 
   only:
     - main
