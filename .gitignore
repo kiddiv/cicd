@@ -20,4 +20,4 @@ venv/
 *.bak
 
 # Templates (якщо не потрібні в репо)
-y_liashko/logs.txt
+
