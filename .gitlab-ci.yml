@@ -14,7 +14,7 @@ test-job:
     - python3 -m pip install --upgrade pip
     - python3 -m pip install flask requests
     - python3 -m py_compile log.py
-    - echo "Syntax check passed"
+    - echo "Syntax check pashsed"
   only:
     - main
     - merge_requests
