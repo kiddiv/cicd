@@ -26,6 +26,8 @@ test-job:
 ####################
 mirror-to-github:
   stage: mirror
+  tags:
+    - cicd
   script:
     - git remote add github https://kiddiv:$GITHUB_TOKEN@github.com/kiddiv/cicd.git
     - git push github HEAD:main --force
@@ -37,6 +39,8 @@ mirror-to-github:
 ####################
 deploy-job:
   stage: deploy
+  tags:
+    - cicd
   before_script:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
