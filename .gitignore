@@ -16,7 +16,6 @@ venv/
 *.iml
 
 # Logs and temp files
-*.txt
 *.tmp
 *.bak
 
