@@ -5,6 +5,8 @@ import time
 import datetime
 import os
 import signal
+from prometheus_flask_exporter import PrometheusMetrics
+metrics = PrometheusMetrics(app)
 app = Flask(__name__)
 LOG_FILE = "logs.txt"
 RUNNING = True
