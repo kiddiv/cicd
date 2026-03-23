@@ -99,6 +99,7 @@
         </div>
         {% endif %}
         <form method="POST">
+              <input type="hidden" name="smile_visible" value="{{ '1' if smile else '0' }}">
               <button type="submit" name="lol" value="1">LOL</button>
        </form>
         {% if smile %}

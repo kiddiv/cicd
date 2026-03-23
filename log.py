@@ -6,6 +6,8 @@ import datetime
 import os
 import signal
 from prometheus_flask_exporter import PrometheusMetrics
+from selenium.webdriver.support.expected_conditions import element_selection_state_to_be
+
 app = Flask(__name__)
 
 metrics = PrometheusMetrics(app)
@@ -28,8 +30,8 @@ def index():
     smile = None
 
     if request.method == "POST":
-        if "lol" in request.form:
-            smile = '😎'
+        if request.form.get("smile"):
+            smile= None if request.form.get("smile_visible") == "1" else '😎'
         elif request.form.get("coin"):
             coin = request.form["coin"].upper()
             url = f"https://api.coinbase.com/v2/exchange-rates?currency={coin}"
@@ -42,8 +44,7 @@ def index():
                    error = "Нема"
             else:
               error = "Error API"
-    elif "lol" in request.form:
-        smile = '😎'
+
     logs = []
     if os.path.exists(LOG_FILE):
         with open(LOG_FILE, "r", encoding="utf-8") as f:
