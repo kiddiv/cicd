@@ -7,7 +7,7 @@ import os
 import signal
 from prometheus_flask_exporter import PrometheusMetrics
 app = Flask(__name__)
-app.config['WTF_CSRF_ENABLED'] = False
+
 metrics = PrometheusMetrics(app)
 LOG_FILE = "logs.txt"
 RUNNING = True
