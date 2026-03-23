@@ -6,7 +6,7 @@ import datetime
 import os
 import signal
 from prometheus_flask_exporter import PrometheusMetrics
-from selenium.webdriver.support.expected_conditions import element_selection_state_to_be
+
 
 app = Flask(__name__)
 
