@@ -45,7 +45,7 @@ def index():
             logs = f.readlines()[-100:]
 
     return render_template("index.html",price=price,coin=coin,error=error,logs=logs)
-@app.route("/", methods=["GET", "POST"])
+@app.route("/lolkek", methods=["GET", "POST"])
 def smile():
     smile = None
     if request.method == "POST":
