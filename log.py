@@ -25,8 +25,11 @@ def index():
     price = None
     coin = None
     error = None
+    smile = None
 
     if request.method == "POST":
+        if "lol" in request.form:
+            smile = '😎'
         coin = request.form["coin"].upper()
         url = f"https://api.coinbase.com/v2/exchange-rates?currency={coin}"
 
