@@ -25,7 +25,6 @@ def index():
     coin = None
     error = None
 
-
     if request.method == "POST":
         coin = request.form["coin"].upper()
         url = f"https://api.coinbase.com/v2/exchange-rates?currency={coin}"
@@ -46,6 +45,12 @@ def index():
             logs = f.readlines()[-100:]
 
     return render_template("index.html",price=price,coin=coin,error=error,logs=logs)
+app.route("/lolkek", methods=["GET", "POST"])
+smile = None
+def smile():
+     if request.method == "POST":
+         smile = "😎"
+     return render_template("index.html",smile=smile)
 @app.route("/kill")
 def kill():
     os.kill(os.getpid(), signal.SIGTERM)

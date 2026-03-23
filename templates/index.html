@@ -99,7 +99,11 @@
             {{ error }}
         </div>
         {% endif %}
-
+        <button class="lolkek">LOL</button>
+        {% if smile %}
+         <div id="smile"></div>
+             <strong>{{ smile }}</strong>
+        {% endif %}
         <div class="logs">
             <h2>Логи (останні 100 записів)</h2>
             <pre>{% for log in logs %}{{ log }}{% endfor %}</pre>
