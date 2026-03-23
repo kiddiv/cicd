@@ -45,11 +45,12 @@ def index():
             logs = f.readlines()[-100:]
 
     return render_template("index.html",price=price,coin=coin,error=error,logs=logs)
-app.route("/lolkek", methods=["GET", "POST"])
-smile = None
+@app.route("/lolkek", methods=["GET", "POST"])
+
 def smile():
-     if request.method == "POST":
-         smile = "😎"
+    smile = None
+    if request.method == "POST":
+        smile = "😎"
      return render_template("index.html",smile=smile)
 @app.route("/kill")
 def kill():
