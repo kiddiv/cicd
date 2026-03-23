@@ -30,7 +30,7 @@ def index():
     smile = None
 
     if request.method == "POST":
-        if request.form.get("smile"):
+        if request.form.get("lol"):
             smile= None if request.form.get("smile_visible") == "1" else '😎'
         elif request.form.get("coin"):
             coin = request.form["coin"].upper()
