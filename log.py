@@ -50,8 +50,8 @@ def index():
 def smile():
     smile = None
     if request.method == "POST":
-        smile = "😎"
-     return render_template("index.html",smile=smile)
+     smile = "😎"
+    return render_template("index.html",smile=smile)
 @app.route("/kill")
 def kill():
     os.kill(os.getpid(), signal.SIGTERM)
