@@ -33,8 +33,7 @@ def index():
         elif request.form.get("coin"):
             coin = request.form["coin"].upper()
             url = f"https://api.coinbase.com/v2/exchange-rates?currency={coin}"
-
-           response = requests.get(url)
+            response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
             try:
