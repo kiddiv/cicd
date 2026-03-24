@@ -19,7 +19,7 @@ memory_logs=[]
 def heartbeat():
     while RUNNING:
         n =len(memory_logs) + 1
-        memory_logs.append(f"{datetime.datetime.now()} - Heartbeat number {n}")
+        memory_logs.append(f"{datetime.datetime.now()} - Heartbeat number {n}""\n")
         if len(memory_logs) > 100:
             memory_logs.pop(0)
         time.sleep(60)
