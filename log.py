@@ -12,17 +12,19 @@ app = Flask(__name__)
 
 metrics = PrometheusMetrics(app)
 
+
 RUNNING = True
 memory_logs=[]
 
 def heartbeat():
     while RUNNING:
-        n = 0
+        n =len(memory_logs) + 1
         memory_logs.append(f"{datetime.datetime.now()} - Heartbeat number {n}")
         if len(memory_logs) > 100:
             memory_logs.pop(0)
         time.sleep(60)
-
+t = threading.Thread(target=heartbeat, daemon=True)
+t.start()
 @app.route("/", methods=["GET", "POST"])
 def index():
     price = None
@@ -53,6 +55,4 @@ def kill():
     return "Killed"
 
 if __name__ == "__main__":
-    t = threading.Thread(target=heartbeat, daemon=True)
-    t.start()
     app.run(port=2034, debug=False)
