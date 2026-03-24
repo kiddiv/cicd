@@ -98,15 +98,6 @@
             {{ error }}
         </div>
         {% endif %}
-        <form method="POST">
-              <input type="hidden" name="smile_visible" value="{{ '1' if smile else '0' }}">
-              <button type="submit" name="lol" value="1">LOL</button>
-       </form>
-        {% if smile %}
-         <div id="smile">
-             <strong>{{ smile }}</strong>
-         </div>
-        {% endif %}
         <div class="logs">
             <h2>Логи (останні 100 записів)</h2>
             <pre>{% for log in logs %}{{ log }}{% endfor %}</pre>

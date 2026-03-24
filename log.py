@@ -30,9 +30,7 @@ def index():
     smile = None
 
     if request.method == "POST":
-        if request.form.get("lol"):
-            smile= None if request.form.get("smile_visible") == "1" else '😎'
-        elif request.form.get("coin"):
+        if request.form.get("coin"):
             coin = request.form["coin"].upper()
             url = f"https://api.coinbase.com/v2/exchange-rates?currency={coin}"
             response = requests.get(url)
