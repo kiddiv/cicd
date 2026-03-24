@@ -11,16 +11,17 @@ from prometheus_flask_exporter import PrometheusMetrics
 app = Flask(__name__)
 
 metrics = PrometheusMetrics(app)
-LOG_FILE = "logs.txt"
-RUNNING = True
 
+RUNNING = True
+memory_logs=[]
 
 def heartbeat():
     while RUNNING:
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"{datetime.datetime.now()} HEARTBEAT OK\n")
+        n = 0
+        memory_logs.append(f"{datetime.datetime.now()} - Heartbeat number {n}")
+        if len(memory_logs) > 100:
+            memory_logs.pop(0)
         time.sleep(60)
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -43,10 +44,7 @@ def index():
             else:
               error = "Error API"
 
-    logs = []
-    if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
-            logs = f.readlines()[-100:]
+    logs = memory_logs[-100:]
 
     return render_template("index.html",price=price,coin=coin,error=error,logs=logs,smile=smile)
 @app.route("/kill")
