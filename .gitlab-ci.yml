@@ -38,7 +38,7 @@ mirror-to-github:
 
 ##########
 # DEPLOY STAGE
-#####################
+######################
 deploy-job:
   stage: deploy
   tags:
