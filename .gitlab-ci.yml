@@ -36,7 +36,7 @@ mirror-to-github:
   only:
     - main
 
-####################
+##########
 # DEPLOY STAGE
 ####################
 deploy-job:
