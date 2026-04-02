@@ -9,7 +9,7 @@ stages:
 test-job:
   stage: test
   tags:
-    - cicd
+    - cicd2
   script:
     - python3 --version
     - python3 -m ensurepip --default-pip || true
@@ -27,7 +27,7 @@ test-job:
 mirror-to-github:
   stage: mirror
   tags:
-    - cicd
+    - cicd2
   script:
     - git fetch --unshallow || true
     - git remote remove github || true
@@ -42,7 +42,7 @@ mirror-to-github:
 deploy-job:
   stage: deploy
   tags:
-    - cicd
+    - cicd2
   before_script:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
